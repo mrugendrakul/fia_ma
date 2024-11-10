@@ -1,5 +1,6 @@
 package com.example.fiyama.ui.currentGame
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,13 +23,18 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +54,7 @@ import com.example.fiyama.ui.destination
 import com.example.fiyama.ui.theme.FiyamaTheme
 import com.example.fiyama.R
 import com.example.fiyama.data.user
+import kotlinx.coroutines.launch
 
 object gameRoomDestination : destination{
     override val route = "game_room"
@@ -66,7 +73,10 @@ fun GameRoomScreen(
         navigateUp = navigateUp,
         uiState = gameUiState,
         setRole = {gamePlayer,playerRole->viewModel.setCurrentRole(player = gamePlayer, role = playerRole)},
-        setTempGod = {viewModel.setTempGod(it)}
+        setTempGod = {viewModel.setTempGod(it)},
+        resetRoles = {viewModel.resetRoles()
+        },
+        resetToast = {viewModel.resetToast()}
     )
 }
 
@@ -100,7 +110,9 @@ fun GameRoomBody(
     navigateUp :()->Unit,
     uiState: currGameUiState,
     setRole: (gamePlayer,playerRole)->Unit,
-    setTempGod:(gamePlayer)->Unit
+    setTempGod:(gamePlayer)->Unit,
+    resetRoles:()->Unit,
+    resetToast:()->Unit
 ){
     var dialogVisible by remember {
         mutableStateOf(false)
@@ -108,6 +120,8 @@ fun GameRoomBody(
     if (dialogVisible){
         ChangeGodConfirmDialog(dismissDialog = {dialogVisible = false}, player = uiState.tempGod, setRole = setRole)
     }
+    val snackBarHostState = remember{ SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -130,12 +144,18 @@ fun GameRoomBody(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 10.dp, end = 10.dp),
-                        onClick = {}
+                        onClick = { resetRoles()
+
+                        }
                     ) { Text("Reset All Roles") }
                 }
             }
+        },
+        snackbarHost = {
+            SnackbarHost(snackBarHostState)
         }
     ) {
+
         if (uiState.currentUser.username == uiState.currentGod){
 
             LazyColumn(
@@ -404,7 +424,9 @@ fun GameRoomPreview(){
                 currentGod = "meself"
             ),
             setRole = {gamePlayer,playerRole->},
-            setTempGod = {}
+            setTempGod = {},
+            resetRoles = {},
+            resetToast = {}
         )
     }
 }

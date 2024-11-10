@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            storeFile = file("/home/mrugendra/Documents/keystores/mafiaKeys.jks")
+            storePassword = "goldy777"
+            keyAlias = "Key0"
+            keyPassword = "goldy777"
+        }
+    }
     namespace = "com.example.fiyama"
     compileSdk = 35
 
@@ -27,6 +35,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

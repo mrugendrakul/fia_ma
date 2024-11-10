@@ -111,8 +111,45 @@ class currentGameViewModel(
         }
     }
 
+    fun resetRoles(){
+        gameUiState.update { it.copy(
+            showToast = true,
+            toastMessage = "Reset Started"
+        ) }
+        viewModelScope.launch{
+            gameUiState.value.players.filter { it.role != playerRole.God }.forEach {
+                dataRepository.updatePlayerRole(
+                    roomId = gameUiState.value.currentRoomId,
+                    player = it,
+                    role = playerRole.Unassigned,
+                    onError = {Log.e("currentGameViewModel", "setCurrentRole:failed : $it ")}
+                )
+            }
+        }
+    }
+
+    fun resetToast(){
+        gameUiState.update { it.copy(
+            showToast = false
+        ) }
+    }
+
+    fun randomizeRoles(){
+
+    }
+
     fun setTempGod(tempGod: gamePlayer){
         gameUiState.update { it.copy(tempGod = tempGod) }
+    }
+
+    fun updateMafiaCount(count:Int){
+        gameUiState.update { it.copy(mafiaCount = count) }
+    }
+    fun updateDoctorCount(count:Int){
+        gameUiState.update { it.copy(doctorCount = count) }
+    }
+    fun updatePoliceCount(count:Int){
+        gameUiState.update { it.copy(policeCount = count) }
     }
 }
 
@@ -123,5 +160,10 @@ data class currGameUiState(
     val isGod:Boolean = false,
     val currentUser: user = user(),
     val currentGod:String = "",
-    val tempGod:gamePlayer = gamePlayer()
+    val tempGod:gamePlayer = gamePlayer(),
+    val mafiaCount: Int = 1,
+    val doctorCount: Int = 1,
+    val policeCount: Int = 1,
+    val showToast:Boolean = false,
+    val toastMessage:String = ""
 )

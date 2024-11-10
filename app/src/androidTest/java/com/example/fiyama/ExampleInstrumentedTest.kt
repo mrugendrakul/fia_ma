@@ -6,6 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.fiyama.data.gamePlayer
 import com.example.fiyama.data.gameRoom
 import com.example.fiyama.data.playerRole
+import com.example.fiyama.data.user
 import com.example.fiyama.network.FirebaseNetworkApi
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -42,6 +43,13 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.fiyama", appContext.packageName)
+    }
+
+    @Test
+    fun addUsers_returnSuccess() =runTest{
+        firebaseNetworkApi.addUser(
+            user = user(id="124", username = "someone")
+        )
     }
 
     @Test

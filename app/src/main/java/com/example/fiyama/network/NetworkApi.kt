@@ -89,7 +89,7 @@ class FirebaseNetworkApi(
         listenRooms = gameRoomCollection
             .whereArrayContains("players", username)
             .addSnapshotListener { snapshot, e ->
-                if (e != null) {
+                if (e != null && snapshot == null) {
                     {
                         Log.e(networkTag, "getLiveGameRooms: ", e)
                         onFailure(e.message.toString())
