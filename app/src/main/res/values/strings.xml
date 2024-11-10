@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">fiyama</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="login_now">Login Now!</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_have_account">Already have account?</string>
+    <string name="no_account_signup_now">No Account? </string>
+</resources>

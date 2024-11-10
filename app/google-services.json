@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "842177338067",
+    "project_id": "fiyama-eae65",
+    "storage_bucket": "fiyama-eae65.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842177338067:android:9f98f2073adacb9a9a9226",
+        "android_client_info": {
+          "package_name": "com.example.fiyama"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn0yDZ1o6NMyhhx0VbKwLeyaqNc0zyITA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
